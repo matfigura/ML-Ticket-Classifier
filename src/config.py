@@ -9,6 +9,8 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 DATABASE_DIR = ROOT_DIR / "database"
 DATABASE_PATH = DATABASE_DIR / "tickets.db"
 
+REPORTS_DIR = ROOT_DIR / "reports"
+
 TICKETS_TABLE_NAME = "tickets"
 
 REQUIRED_COLUMNS = [
