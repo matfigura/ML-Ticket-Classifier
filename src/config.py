@@ -10,6 +10,7 @@ DATABASE_DIR = ROOT_DIR / "database"
 DATABASE_PATH = DATABASE_DIR / "tickets.db"
 
 REPORTS_DIR = ROOT_DIR / "reports"
+MODELS_DIR = ROOT_DIR / "models"
 
 TICKETS_TABLE_NAME = "tickets"
 
