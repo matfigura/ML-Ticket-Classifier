@@ -1,0 +1,11 @@
+,predicted_billing and payments,predicted_customer service,predicted_general inquiry,predicted_human resources,predicted_it support,predicted_product support,predicted_returns and exchanges,predicted_sales and pre-sales,predicted_service outages and maintenance,predicted_technical support
+actual_billing and payments,454,29,2,2,16,14,21,17,2,22
+actual_customer service,37,363,25,23,73,86,59,79,19,90
+actual_general inquiry,0,3,55,1,6,5,2,1,0,8
+actual_human resources,2,5,1,80,11,7,2,0,0,3
+actual_it support,13,57,10,17,352,38,23,21,37,99
+actual_product support,25,105,32,30,118,424,68,53,23,183
+actual_returns and exchanges,9,16,5,5,14,17,182,9,7,16
+actual_sales and pre-sales,3,13,2,3,9,13,5,110,4,7
+actual_service outages and maintenance,4,5,1,1,12,3,7,3,169,16
+actual_technical support,37,165,26,24,239,174,76,65,75,749
