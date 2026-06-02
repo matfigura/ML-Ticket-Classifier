@@ -1,0 +1,38 @@
+[
+    {
+        "target": "priority",
+        "model": "LinearSVC",
+        "accuracy": 0.6736246240934017,
+        "precision_macro": 0.6622877900987589,
+        "recall_macro": 0.6638274646701613,
+        "f1_macro": 0.6630180167488505,
+        "precision_weighted": 0.6738408458956221,
+        "recall_weighted": 0.6736246240934017,
+        "f1_weighted": 0.6736920501862109,
+        "training_time_seconds": 2.18
+    },
+    {
+        "target": "priority",
+        "model": "LogisticRegression",
+        "accuracy": 0.6161330267114806,
+        "precision_macro": 0.6040928566039376,
+        "recall_macro": 0.6180890582575975,
+        "f1_macro": 0.6082084217637791,
+        "precision_weighted": 0.624160536178461,
+        "recall_weighted": 0.6161330267114805,
+        "f1_weighted": 0.6180852145392308,
+        "training_time_seconds": 2.03
+    },
+    {
+        "target": "priority",
+        "model": "MultinomialNB",
+        "accuracy": 0.5379444542720679,
+        "precision_macro": 0.6016135888614311,
+        "recall_macro": 0.47396704419176333,
+        "f1_macro": 0.4675515002169397,
+        "precision_weighted": 0.573977944004266,
+        "recall_weighted": 0.5379444542720679,
+        "f1_weighted": 0.5105603664283899,
+        "training_time_seconds": 1.31
+    }
+]
