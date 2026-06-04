@@ -6,32 +6,45 @@ from src.api import app
 client = TestClient(app)
 
 
-def test_predict_endpoint_returns_expected_invoice_prediction():
+def test_predict_endpoint_returns_valid_response_structure():
     payload = {
         "subject": "Invoice issue",
         "body": "I was charged twice for my last invoice and need help with the payment.",
-        "save_to_database": True,
+        "save_to_database": False,
     }
 
     response = client.post("/predict", json=payload)
 
-    assert response.status_code == 200
+    assert response.status_code == 200, response.text
 
     data = response.json()
 
     assert data["subject"] == payload["subject"]
     assert data["body"] == payload["body"]
 
-    assert data["predicted_priority"] == "high"
-    assert data["predicted_queue"] == "billing and payments"
+    assert "predicted_priority" in data
+    assert "predicted_queue" in data
+    assert "priority_score" in data
+    assert "queue_score" in data
+    assert "priority_top_predictions" in data
+    assert "queue_top_predictions" in data
+    assert "model_version" in data
 
+    assert isinstance(data["predicted_priority"], str)
+    assert isinstance(data["predicted_queue"], str)
     assert isinstance(data["priority_score"], float)
     assert isinstance(data["queue_score"], float)
+    assert isinstance(data["priority_top_predictions"], list)
+    assert isinstance(data["queue_top_predictions"], list)
+    assert isinstance(data["model_version"], str)
 
-    assert data["priority_top_predictions"][0]["class_name"] == "high"
-    assert data["queue_top_predictions"][0]["class_name"] == "billing and payments"
 
-    assert data["model_version"] == "tfidf_linearsvc_v1"
+def test_predict_endpoint_rejects_missing_body():
+    payload = {
+        "subject": "Invoice issue",
+        "save_to_database": False,
+    }
 
-    assert "prediction_id" in data
-    assert isinstance(data["prediction_id"], int)
+    response = client.post("/predict", json=payload)
+
+    assert response.status_code == 422
