@@ -1,18 +1,54 @@
 stages:
+  - lint
   - test
   - docker
 
-test_project:
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+
+lint:
+  image: python:3.11-slim
+  stage: lint
+
+  before_script:
+    - python -m pip install --upgrade pip
+    - pip install -r requirements.txt
+
+  script:
+  - ruff format --check src test
+
+format_check:
+  image: python:3.11-slim
+  stage: lint
+
+  before_script:
+    - python -m pip install --upgrade pip
+    - pip install -r requirements.txt
+
+  script:
+  - ruff check src test
+
+tests:
   image: python:3.11-slim
   stage: test
 
   before_script:
     - python -m pip install --upgrade pip
     - pip install -r requirements.txt
-    - pip install pytest
 
   script:
-    - pytest -q
+    - python -m pytest -q --junitxml=report.xml
+
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+    paths:
+      - report.xml
 
 docker_build:
   image: docker:27

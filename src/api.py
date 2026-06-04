@@ -238,10 +238,7 @@ def get_last_predictions(
             "message": "Predictions table does not exist yet.",
         }
 
-    predictions = [
-        dict(zip(columns, row))
-        for row in rows
-    ]
+    predictions = [dict(zip(columns, row)) for row in rows]
 
     return {
         "count": len(predictions),

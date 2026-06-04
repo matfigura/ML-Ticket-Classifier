@@ -1,7 +1,6 @@
 import argparse
 import json
 import sqlite3
-from pathlib import Path
 
 import joblib
 import matplotlib.pyplot as plt
@@ -83,21 +82,15 @@ def calculate_metrics(y_test, y_pred) -> dict:
         "precision_macro": precision_score(
             y_test, y_pred, average="macro", zero_division=0
         ),
-        "recall_macro": recall_score(
-            y_test, y_pred, average="macro", zero_division=0
-        ),
-        "f1_macro": f1_score(
-            y_test, y_pred, average="macro", zero_division=0
-        ),
+        "recall_macro": recall_score(y_test, y_pred, average="macro", zero_division=0),
+        "f1_macro": f1_score(y_test, y_pred, average="macro", zero_division=0),
         "precision_weighted": precision_score(
             y_test, y_pred, average="weighted", zero_division=0
         ),
         "recall_weighted": recall_score(
             y_test, y_pred, average="weighted", zero_division=0
         ),
-        "f1_weighted": f1_score(
-            y_test, y_pred, average="weighted", zero_division=0
-        ),
+        "f1_weighted": f1_score(y_test, y_pred, average="weighted", zero_division=0),
     }
 
     return metrics
@@ -167,8 +160,7 @@ def save_model(model: Pipeline, target_column: str) -> None:
 def train_model(target_column: str) -> None:
     if target_column not in ALLOWED_TARGETS:
         raise ValueError(
-            f"Unsupported target: {target_column}. "
-            f"Allowed targets: {ALLOWED_TARGETS}"
+            f"Unsupported target: {target_column}. Allowed targets: {ALLOWED_TARGETS}"
         )
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)

@@ -31,22 +31,19 @@ def find_csv_file():
 def normalize_column_names(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     df.columns = (
-        df.columns
-        .str.strip()
-        .str.lower()
-        .str.replace(" ", "_")
-        .str.replace("-", "_")
+        df.columns.str.strip().str.lower().str.replace(" ", "_").str.replace("-", "_")
     )
     return df
 
 
 def validate_required_columns(df: pd.DataFrame) -> None:
-    missing_columns = [column for column in REQUIRED_COLUMNS if column not in df.columns]
+    missing_columns = [
+        column for column in REQUIRED_COLUMNS if column not in df.columns
+    ]
 
     if missing_columns:
         raise ValueError(
-            "Missing required columns in dataset: "
-            + ", ".join(missing_columns)
+            "Missing required columns in dataset: " + ", ".join(missing_columns)
         )
 
 
@@ -61,26 +58,22 @@ def prepare_tickets_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     selected_columns = REQUIRED_COLUMNS + available_optional_columns
     df = df[selected_columns].copy()
 
-    
     df["language"] = df["language"].astype(str).str.lower().str.strip()
     df = df[df["language"] == "en"].copy()
 
-    
     df["subject"] = df["subject"].fillna("").astype(str).str.strip()
     df["body"] = df["body"].fillna("").astype(str).str.strip()
 
-    
     df["text"] = (df["subject"] + " " + df["body"]).str.strip()
 
-    
     df = df[df["text"].str.len() > 0].copy()
 
-    
     df["type"] = df["type"].fillna("unknown").astype(str).str.lower().str.strip()
     df["queue"] = df["queue"].fillna("unknown").astype(str).str.lower().str.strip()
-    df["priority"] = df["priority"].fillna("unknown").astype(str).str.lower().str.strip()
+    df["priority"] = (
+        df["priority"].fillna("unknown").astype(str).str.lower().str.strip()
+    )
 
-    
     df.insert(0, "ticket_id", range(1, len(df) + 1))
 
     return df

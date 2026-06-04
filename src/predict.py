@@ -121,8 +121,7 @@ SAMPLE_TICKETS = [
 def load_model(model_path):
     if not model_path.exists():
         raise FileNotFoundError(
-            f"Model file not found: {model_path}. "
-            "Run: python -m src.train_final_models"
+            f"Model file not found: {model_path}. Run: python -m src.train_final_models"
         )
 
     return joblib.load(model_path)
@@ -135,7 +134,9 @@ def build_ticket_text(subject: str, body: str) -> str:
     return f"{subject} {body}".strip()
 
 
-def predict_with_score(model, text: str, top_n: int = 3) -> tuple[str, float | None, list[dict]]:
+def predict_with_score(
+    model, text: str, top_n: int = 3
+) -> tuple[str, float | None, list[dict]]:
     prediction = model.predict([text])[0]
 
     score = None

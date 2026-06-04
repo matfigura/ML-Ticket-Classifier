@@ -18,17 +18,15 @@ def load_tickets_from_database() -> pd.DataFrame:
     return df
 
 
-def save_distribution_report(df: pd.DataFrame, column: str, output_name: str) -> pd.DataFrame:
-    distribution = (
-        df[column]
-        .value_counts(dropna=False)
-        .reset_index()
-    )
+def save_distribution_report(
+    df: pd.DataFrame, column: str, output_name: str
+) -> pd.DataFrame:
+    distribution = df[column].value_counts(dropna=False).reset_index()
 
     distribution.columns = [column, "tickets_count"]
-    distribution["percentage"] = (
-        distribution["tickets_count"] / len(df) * 100
-    ).round(2)
+    distribution["percentage"] = (distribution["tickets_count"] / len(df) * 100).round(
+        2
+    )
 
     output_path = REPORTS_DIR / output_name
     distribution.to_csv(output_path, index=False)
@@ -37,11 +35,13 @@ def save_distribution_report(df: pd.DataFrame, column: str, output_name: str) ->
 
 
 def save_missing_values_report(df: pd.DataFrame) -> pd.DataFrame:
-    missing_values = pd.DataFrame({
-        "column": df.columns,
-        "missing_count": df.isna().sum().values,
-        "missing_percentage": (df.isna().sum().values / len(df) * 100).round(2),
-    })
+    missing_values = pd.DataFrame(
+        {
+            "column": df.columns,
+            "missing_count": df.isna().sum().values,
+            "missing_percentage": (df.isna().sum().values / len(df) * 100).round(2),
+        }
+    )
 
     output_path = REPORTS_DIR / "missing_values.csv"
     missing_values.to_csv(output_path, index=False)
@@ -55,9 +55,9 @@ def save_text_length_report(df: pd.DataFrame) -> pd.DataFrame:
     df["text_length_chars"] = df["text"].astype(str).str.len()
     df["text_length_words"] = df["text"].astype(str).str.split().str.len()
 
-    text_length_summary = df[
-        ["text_length_chars", "text_length_words"]
-    ].describe().round(2)
+    text_length_summary = (
+        df[["text_length_chars", "text_length_words"]].describe().round(2)
+    )
 
     output_path = REPORTS_DIR / "text_length_summary.csv"
     text_length_summary.to_csv(output_path)
@@ -69,16 +69,18 @@ def save_duplicates_report(df: pd.DataFrame) -> pd.DataFrame:
     duplicated_text_count = df.duplicated(subset=["text"]).sum()
     duplicated_subject_body_count = df.duplicated(subset=["subject", "body"]).sum()
 
-    duplicates_report = pd.DataFrame({
-        "metric": [
-            "duplicated_text_count",
-            "duplicated_subject_body_count",
-        ],
-        "value": [
-            duplicated_text_count,
-            duplicated_subject_body_count,
-        ],
-    })
+    duplicates_report = pd.DataFrame(
+        {
+            "metric": [
+                "duplicated_text_count",
+                "duplicated_subject_body_count",
+            ],
+            "value": [
+                duplicated_text_count,
+                duplicated_subject_body_count,
+            ],
+        }
+    )
 
     output_path = REPORTS_DIR / "duplicates_report.csv"
     duplicates_report.to_csv(output_path, index=False)
@@ -86,7 +88,9 @@ def save_duplicates_report(df: pd.DataFrame) -> pd.DataFrame:
     return duplicates_report
 
 
-def plot_bar_distribution(distribution: pd.DataFrame, label_column: str, title: str, output_name: str) -> None:
+def plot_bar_distribution(
+    distribution: pd.DataFrame, label_column: str, title: str, output_name: str
+) -> None:
     plt.figure(figsize=(10, 6))
     plt.bar(distribution[label_column].astype(str), distribution["tickets_count"])
     plt.title(title)
@@ -171,7 +175,9 @@ def main():
     df_with_lengths = save_text_length_report(df)
 
     print("Text length summary:")
-    print(df_with_lengths[["text_length_chars", "text_length_words"]].describe().round(2))
+    print(
+        df_with_lengths[["text_length_chars", "text_length_words"]].describe().round(2)
+    )
     print()
 
     plot_bar_distribution(

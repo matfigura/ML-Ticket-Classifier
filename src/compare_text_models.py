@@ -101,21 +101,15 @@ def calculate_metrics(y_test, y_pred) -> dict:
         "precision_macro": precision_score(
             y_test, y_pred, average="macro", zero_division=0
         ),
-        "recall_macro": recall_score(
-            y_test, y_pred, average="macro", zero_division=0
-        ),
-        "f1_macro": f1_score(
-            y_test, y_pred, average="macro", zero_division=0
-        ),
+        "recall_macro": recall_score(y_test, y_pred, average="macro", zero_division=0),
+        "f1_macro": f1_score(y_test, y_pred, average="macro", zero_division=0),
         "precision_weighted": precision_score(
             y_test, y_pred, average="weighted", zero_division=0
         ),
         "recall_weighted": recall_score(
             y_test, y_pred, average="weighted", zero_division=0
         ),
-        "f1_weighted": f1_score(
-            y_test, y_pred, average="weighted", zero_division=0
-        ),
+        "f1_weighted": f1_score(y_test, y_pred, average="weighted", zero_division=0),
     }
 
 
@@ -127,7 +121,9 @@ def save_classification_report(
 ) -> None:
     report = classification_report(y_test, y_pred, zero_division=0)
 
-    output_path = REPORTS_DIR / f"{target_column}_{model_name}_classification_report.txt"
+    output_path = (
+        REPORTS_DIR / f"{target_column}_{model_name}_classification_report.txt"
+    )
 
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(report)
